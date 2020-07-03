@@ -16,6 +16,11 @@ You need to specify the value of "traefikhost" before you'll start to deploy the
 
 ```export traefikhost=lab.coronawhy.org``` or ```export traefikhost=localhost```
 
+download all CoronaWhy notebooks
+```
+./build-coronawhy-infra.sh 
+```
+
 then you simply run
 
 ```docker-compose up```
