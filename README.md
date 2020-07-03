@@ -20,7 +20,7 @@ then you simply run
 
 ```docker-compose up```
 
-after that there would be exposed next services:
+after that there would be exposed next CoronaWhy services:
 
 - airflow http://airflow.lab.coronawhy.org (takes some time to launch)
 - whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
@@ -28,6 +28,8 @@ after that there would be exposed next services:
 - jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
 - portainer http://portainer.lab.coronawhy.org
 - traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
+- sparql http://sparql.lab.coronawhy.org
+- kibana http://kibana.lab.coronawhy.org
 
 ## CoronaWhy dashboards
 
