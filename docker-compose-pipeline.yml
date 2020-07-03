@@ -1,0 +1,7 @@
+pipeline:
+  image: coronawhy/pipeline
+  environment:
+    UPDATE: "true"
+  command: python PreProcess_v19.py --max_n_files=10 --CORD19_path=/data/CORD-19-research-challenge.v19
+  volumes:
+    - /data/distrib/covid-19-infrastructure/data/original:/data
