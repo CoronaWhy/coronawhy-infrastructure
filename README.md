@@ -48,20 +48,14 @@ Download COVID-19 Open Research Dataset Challenge (CORD-19) from [Kaggle](https:
 ```
 bash ./download_dataset.sh
 ```
-Start Jupyter by executing
+Start NLP pipeline manually by executing
 ```
-docker-compose up
+docker run -v /data/distrib/covid-19-infrastructure/data/original:/data -it coronawhy/pipeline /bin/bash
 ```
-Jupyter notebook is running on port 8888, test CORD-19 pipeline by running commands:
+or automatically with
 ```
-docker cp ./tests coronawhy-infrastructure_jupyter_1:/home/jovyan/
-docker exec -it coronawhy-infrastructure_jupyter_1 /bin/bash
-pip install googletrans
-cd tests
-python ./cord-processing.py
+docker-compose -f ./docker-compose-pipeline.yml up
 ```
-It should produce v12* files in the same folder. File v12_sentences.json contains all extracted entities on sentences level corresponding to CoronaWhy Elasticsearch [collection](http://search.coronawhy.org/v9sentences/_doc/fDLftXEBMjpYvjrLmggF).
-
 Follow all updates from our [YouTube](https://www.youtube.com/channel/UCEeuBPsfGE3fceAN3yL5Gig) and [CoronaWhy Github](https://github.com/CoronaWhy/)
 
 # Getting Started with CoronaWhy Common infrastructure
