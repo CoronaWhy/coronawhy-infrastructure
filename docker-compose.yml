@@ -58,7 +58,7 @@ services:
       DEFAULT_GRAPH: "http://www.example.com/my-graph"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`sparql.${traefikhost}`)"
+      - "traefik.http.routers.sparql.rule=Host(`sparql.${traefikhost}`)"
       - "traefik.http.routers.sparql.entrypoints=web"
       - "traefik.http.services.sparql.loadbalancer.server.port=8890"
     volumes:
@@ -68,14 +68,10 @@ services:
     image: docker.elastic.co/kibana/kibana:7.8.0
     environment:
       ELASTICSEARCH_HOSTS: http://search.coronawhy.org
-    volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`kibana.${traefikhost}`)"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.${traefikhost}`)"
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
-    ports:
-      - "8082:5601"
 
   whoami:
     image: "containous/whoami"
