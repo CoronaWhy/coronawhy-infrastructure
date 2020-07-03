@@ -44,6 +44,8 @@ services:
     image: jupyter/base-notebook
     volumes:
       - ./data/repo:/home/jovyan/work
+    user:
+      "root"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`jupyter.${traefikhost}`)"
