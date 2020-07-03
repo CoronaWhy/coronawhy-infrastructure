@@ -8,6 +8,27 @@ Currently at over 1000 volunteers, CoronaWhy is composed of data scientists, doc
 
 Read about our [creations](https://github.com/CoronaWhy/covid-19-infrastructure/blob/master/Creations.md) before you start.
 
+# CoronaWhy infrastructure setup 
+
+The infrastructure can be setup locally and exposed as a number of CoronaWhy services using traefik tool.
+
+You need to specify the value of "traefikhost" before you'll start to deploy the infrastructure:
+
+```export traefikhost=lab.coronawhy.org``` or ```export traefikhost=localhost```
+
+then you simply run
+
+```docker-compose up```
+
+after that there would be exposed next services:
+
+- airflow http://airflow.lab.coronawhy.org (takes some time to launch)
+- whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
+- doccano http://doccano.lab.coronawhy.org
+- jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
+- portainer http://portainer.lab.coronawhy.org
+- traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
+
 ## CoronaWhy dashboards
 
 1. [Task-Risk](https://app.powerbi.com/view?r=eyJrIjoiY2E5YjFkZjItN2Q2ZS00MGI5LWFiMWQtZmY0OWRiZTlkNDVmIiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) helps to identify risk factors that can increase the chance of being infected, or affects the severity or the survival outcome of the infection
