@@ -39,6 +39,32 @@ services:
       # Uncomment this label if your Traefik instance is using a specific Docker network and replace the network name 
       # This is not necessary if you set your default network in Traefik config/parameters
       # - "traefik.docker.network=your-traefik-network-name"
+
+  api:
+    build: api/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
+
+  es:
+    build: elasticsearch/
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    environment:
+      - "ES_JAVA_OPTS=-Xmx4024m -Xms4024m"
+    ulimits:
+       memlock:
+         soft: -1
+         hard: -1
+    volumes:
+      - /mnt/ramdisk/elastic/geonames:/usr/share/elasticsearch/data
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/original:/exchange
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.${traefikhost}`)"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
   
   jupyter:
     image: jupyter/base-notebook
