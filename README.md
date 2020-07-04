@@ -29,6 +29,8 @@ after that there would be exposed next CoronaWhy services:
 
 - airflow http://airflow.lab.coronawhy.org (takes some time to launch)
 - whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
+- api http://api.lab.coronawhy.org (FastAPI with Swagger)
+- Elasticsearch http://es.lab.coronawhy.org
 - doccano http://doccano.lab.coronawhy.org
 - jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
 - portainer http://portainer.lab.coronawhy.org
