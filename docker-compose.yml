@@ -69,7 +69,7 @@ services:
          soft: -1
          hard: -1
     volumes:
-      - /mnt/ramdisk/elastic/geonames:/usr/share/elasticsearch/data
+      - ./data/elastic:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./data/original:/exchange
     labels:
