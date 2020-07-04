@@ -31,11 +31,12 @@ after that there would be exposed next CoronaWhy services:
 - whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
 - api http://api.lab.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.lab.coronawhy.org
+- sparql http://sparql.lab.coronawhy.org (Virtuoso as a service)
+- grlc http://grlc.lab.coronawhy.org (SPARQL queries into RESTful APIs convertor)
 - doccano http://doccano.lab.coronawhy.org
 - jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
 - portainer http://portainer.lab.coronawhy.org
 - traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
-- sparql http://sparql.lab.coronawhy.org
 - kibana http://kibana.lab.coronawhy.org
 
 ## CoronaWhy dashboards

@@ -46,6 +46,17 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
 
+  grlc:
+    image: clariah/grlc
+    environment:
+      - "GRLC_SERVER_NAME=grlc.io"
+      - "GRLC_GITHUB_ACCESS_TOKEN=xxx" # Your token
+      - "GRLC_SPARQL_ENDPOINT=http://dbpedia.org/sparql"
+      - "DEBUG=true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
+
   es:
     build: elasticsearch/
     ports:
