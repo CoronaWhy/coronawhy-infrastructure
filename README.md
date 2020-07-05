@@ -27,18 +27,18 @@ then you simply run
 
 after that there would be exposed next CoronaWhy services:
 
-- airflow http://airflow.lab.coronawhy.org (takes some time to launch)
-- whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
-- api http://api.lab.coronawhy.org (FastAPI with Swagger)
+- Airflow http://airflow.lab.coronawhy.org (takes some time to launch)
+- Whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
+- CoronaWhy API http://api.lab.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.lab.coronawhy.org
-- sparql http://sparql.lab.coronawhy.org (Virtuoso as a service)
-- infra http://indra.lab.coronawhy.org (INDRA REST API https://indra.readthedocs.io/en/latest/rest_api.html)
-- grlc http://grlc.lab.coronawhy.org (SPARQL queries into RESTful APIs convertor)
-- doccano http://doccano.lab.coronawhy.org
-- jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
-- portainer http://portainer.lab.coronawhy.org
-- traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
-- kibana http://kibana.lab.coronawhy.org
+- SPARQL http://sparql.lab.coronawhy.org (Virtuoso as a service)
+- INDRA http://indra.lab.coronawhy.org (INDRA REST API https://indra.readthedocs.io/en/latest/rest_api.html)
+- Grlc http://grlc.lab.coronawhy.org (SPARQL queries into RESTful APIs convertor)
+- Doccano http://doccano.lab.coronawhy.org
+- Jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
+- Portainer http://portainer.lab.coronawhy.org
+- Traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
+- Kibana http://kibana.lab.coronawhy.org
 
 ## CoronaWhy dashboards
 
