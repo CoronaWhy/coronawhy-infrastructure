@@ -18,7 +18,7 @@ def read_root():
 def data_item(item_id: str, q: str = None):
     jsondataset = covid19(item_id, verbose = False)
     data = {}
-    datapoints = json.loads(jsondataset.to_json())
+    datapoints = json.loads(jsondataset.to_json(orient='records'))
     data['authors'] = str(covid19datahub_authors)
     data['goal'] = str(covid19datahub_goal)
     data['data'] = datapoints
