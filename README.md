@@ -27,18 +27,20 @@ then you simply run
 
 after that there would be exposed next CoronaWhy services:
 
-- Airflow http://airflow.lab.coronawhy.org (takes some time to launch)
-- Whoami http://whoami.lab.coronawhy.org (simple webserver returning host stats)
-- CoronaWhy API http://api.lab.coronawhy.org (FastAPI with Swagger)
-- Elasticsearch http://es.lab.coronawhy.org
-- SPARQL http://sparql.lab.coronawhy.org (Virtuoso as a service)
-- INDRA http://indra.lab.coronawhy.org (INDRA REST API https://indra.readthedocs.io/en/latest/rest_api.html)
-- Grlc http://grlc.lab.coronawhy.org (SPARQL queries into RESTful APIs convertor)
-- Doccano http://doccano.lab.coronawhy.org
-- Jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
-- Portainer http://portainer.lab.coronawhy.org
-- Traefik dashboard is available at http://lab.coronawhy.org:8080 (not secure setup)
-- Kibana http://kibana.lab.coronawhy.org
+- Airflow http://airflow.apps.coronawhy.org (takes some time to launch)
+- Whoami http://whoami.apps.coronawhy.org (simple webserver returning host stats)
+- CoronaWhy API http://api.apps.coronawhy.org (FastAPI with Swagger)
+- Elasticsearch http://es.apps.coronawhy.org
+- SPARQL http://sparql.apps.coronawhy.org (Virtuoso as a service)
+- INDRA http://indra.apps.coronawhy.org (INDRA REST API https://indra.readthedocs.io/en/latest/rest_api.html)
+- Grlc http://grlc.apps.coronawhy.org (SPARQL queries into RESTful APIs convertor)
+- Doccano http://doccano.apps.coronawhy.org
+- Jupyter http://jupyter.apps.coronawhy.org (look for token in the logs)
+- Portainer http://portainer.apps.coronawhy.org
+- Traefik dashboard is available at http://apps.coronawhy.org:8080 (not secure setup)
+- Kibana http://kibana.apps.coronawhy.org
+
+Warning: in the example all infrastructure components deployed on *.apps.coronawhy.org, you should be able to get a local deployment on *.localhost (doccano.localhost, etc) or *.lab.coronawhy.org 
 
 ## CoronaWhy dashboards
 
