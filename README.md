@@ -32,6 +32,7 @@ after that there would be exposed next CoronaWhy services:
 - api http://api.lab.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.lab.coronawhy.org
 - sparql http://sparql.lab.coronawhy.org (Virtuoso as a service)
+- infra http://indra.lab.coronawhy.org (INDRA REST API https://indra.readthedocs.io/en/latest/rest_api.html)
 - grlc http://grlc.lab.coronawhy.org (SPARQL queries into RESTful APIs convertor)
 - doccano http://doccano.lab.coronawhy.org
 - jupyter http://jupyter.lab.coronawhy.org (look for token in the logs)
