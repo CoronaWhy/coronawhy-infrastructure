@@ -60,7 +60,9 @@ CoronaWhy also maintaining various APIs to produce an aggregated COVID-19 datase
 
 4. [Match Clinical Trials](https://app.powerbi.com/view?r=eyJrIjoiOGEwYzUwMzctYzJhNS00MjcwLTgzYTktYjQ2ODZmOGM2ZjRkIiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) allows exploration of the results from the [COVID-19 International Clinical Trials](https://www.kaggle.com/panahi/covid-19-international-clinical-trials) dataset
 
-5. [COVID-19 Literature Visualization](https://app.powerbi.com/view?r=eyJrIjoiODg5ODk5ZGEtYTViMy00ODAzLThiNzMtNWY2MjM5ZWUyNzU3IiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) helps to explore the data behind the AI-powered literature review
+5. [COVID-19 Literature Visualization](https://app.powerbi.com/view?r=eyJrIjoiNWNkZWEzOWItYjE1Ni00NTI1LTljZmEtMWE5YzY2MDU4ZGI0IiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) helps to explore the data behind the AI-powered literature review
+
+6. [AI-Powered Literature Review - CoronaWhy Team Task-TIES](https://app.powerbi.com/view?r=eyJrIjoiMzU2YTk5ZjMtODU5My00ZjgyLWFmMWEtZDE4NzRjNzJhZTg1IiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) contributions to the AI-powered literature review from the CoronaWhy Team: Task-TIES
 
 More detailed information about every dashboard published on [Kaggle](https://www.kaggle.com/mikehoney/hyperion/notebook).
 
