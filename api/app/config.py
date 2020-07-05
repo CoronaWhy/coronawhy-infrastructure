@@ -1,0 +1,2 @@
+covid19datahub_authors="COVID-19 Data Hub was initiated via the R package COVID19 developed by Emanuele Guidotti (University of Neuchâtel), leveraged by David Ardia (HEC Montréal) via the funding by IVADO, and enhanced and maintained by a growing open source community."
+covid19datahub_goal="The goal of COVID-19 Data Hub https://covid19datahub.io is to provide the research community with a unified data hub by collecting worldwide fine-grained case data, merged with exogenous variables helpful for a better understanding of COVID-19."
