@@ -46,6 +46,14 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
 
+  indra:
+    image: labsyspharm/indra
+    command: python /sw/indra/rest_api/api.py
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.indra.rule=Host(`indra.${traefikhost}`)"
+      - "traefik.http.services.indra.loadbalancer.server.port=8080"
+
   grlc:
     image: clariah/grlc
     environment:
