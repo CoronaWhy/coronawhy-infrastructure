@@ -12,14 +12,14 @@ def read_root():
 #def read_item(item_id: int, q: str = None):
 #    return {"item_id": item_id, "q": q}
 
-@app.get("/data/country/{item_id}")
+@app.get("/country/{item_id}")
 # http://api.apps.coronawhy.org/data/country/FRA
 def data_item(item_id: str, q: str = None):
     dataset = covid19(item_id, verbose = False)
     data = json.loads(dataset.to_json())
     return json.dumps(data, sort_keys=True, indent=4)
 
-@app.get("/data/pid/{item_id}")
+@app.get("/data_by_pid/{item_id}")
 def data_persistent(item_id: str, q: str = None):
     return {"PID": pid, "q": q}
 
