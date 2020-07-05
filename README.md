@@ -42,6 +42,14 @@ after that there would be exposed next CoronaWhy services:
 
 Warning: in the example all infrastructure components deployed on *.apps.coronawhy.org, you should be able to get a local deployment on *.localhost (doccano.localhost, etc) or *.lab.coronawhy.org 
 
+## CoronaWhy datasets
+
+CoronaWhy community is building an Infrastructure for Open Science that can be distributed and scaled up in the future and reused for other important tasks like cancer research. The vision of the community is to build it completely from Open Source components, all data should be published data in FAIR way and keep all available provenance information.
+
+We have Harvard Data Commons as a foundation that allows all CoronaWhy members to work together. We’re building a different services and running an experimental Labs and our data infrastructure is something common and reusable, a place where all research groups are sharing the same resources. It’s build on top of Dataverse data repository developed by Harvard University and available on [datasets.coronawhy.org](datasets.coronawhy.org). 
+
+CoronaWhy also maintaining Data APIs to produce aggregated COVID-19 datasets. You can access the data by querying CoronaWhy Data API with using country codes, for example, FRA for France [http://api.apps.coronawhy.org/country/FRA](http://api.apps.coronawhy.org/country/FRA) 
+
 ## CoronaWhy dashboards
 
 1. [Task-Risk](https://app.powerbi.com/view?r=eyJrIjoiY2E5YjFkZjItN2Q2ZS00MGI5LWFiMWQtZmY0OWRiZTlkNDVmIiwidCI6ImRjMWYwNGY1LWMxZTUtNDQyOS1hODEyLTU3OTNiZTQ1YmY5ZCIsImMiOjEwfQ%3D%3D) helps to identify risk factors that can increase the chance of being infected, or affects the severity or the survival outcome of the infection
