@@ -46,9 +46,9 @@ Warning: in the example all infrastructure components deployed on *.apps.coronaw
 
 CoronaWhy community is building an Infrastructure for Open Science that can be distributed and scaled up in the future and reused for other important tasks like cancer research. The vision of the community is to build it completely from Open Source components, all data should be published data in FAIR way and keep all available provenance information.
 
-We have Harvard Data Commons as a foundation that allows all CoronaWhy members to work together. We’re building a different services and running an experimental Labs and our data infrastructure is something common and reusable, a place where all research groups are sharing the same resources. It’s build on top of Dataverse data repository developed by Harvard University and available on [datasets.coronawhy.org](datasets.coronawhy.org). 
+We're using [Harvard Data Commons](https://www.youtube.com/watch?v=T2yEvgT7_9Q&t=334s) as a foundation that allows all CoronaWhy members to work together. We’re building a different services and running an experimental Labs and our data infrastructure is something common and reusable, a place where all research groups are sharing the same resources. It’s build on top of Dataverse data repository developed by Harvard University and available on [datasets.coronawhy.org](datasets.coronawhy.org). 
 
-CoronaWhy also maintaining Data APIs to produce aggregated COVID-19 datasets. You can access the data by querying CoronaWhy Data API with using country codes, for example, FRA for France [http://api.apps.coronawhy.org/country/FRA](http://api.apps.coronawhy.org/country/FRA) 
+CoronaWhy also maintaining various APIs to produce an aggregated COVID-19 datasets. You can access the data by querying CoronaWhy Data API with using country codes, for example, FRA for France [http://api.apps.coronawhy.org/country/FRA](http://api.apps.coronawhy.org/country/FRA) 
 
 ## CoronaWhy dashboards
 
