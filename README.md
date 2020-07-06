@@ -176,3 +176,5 @@ We are working on the deployment Neo4j graph database.
 [Exploration of Document Clustering with SPECTER Embeddings](https://medium.com/@beychaner/exploration-of-document-clustering-with-specter-embeddings-7d255f0f7392) by Brandon Eychaner
 
 [COVID-19 Research Papers Geolocation](https://medium.com/swlh/covid-19-research-papers-geolocation-c2d090bf9e06) by Ishan Sharma
+
+[Sweeping Towards Better Coronavirus Forecasting](https://towardsdatascience.com/sweeping-towards-better-coronavirus-forecasting-cce3b5d9a6f9) by Isaac Godfried
