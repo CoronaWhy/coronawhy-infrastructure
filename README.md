@@ -14,16 +14,12 @@ The infrastructure can be setup locally and exposed as a number of CoronaWhy ser
 
 You need to specify the value of "traefikhost" before you'll start to deploy the infrastructure:
 
-```export traefikhost=lab.coronawhy.org``` or ```export traefikhost=localhost```
+```export traefikhost=apps.coronawhy.org``` or ```export traefikhost=localhost```
 
 download all CoronaWhy notebooks
 ```
 ./build-coronawhy-infra.sh 
 ```
-
-then you simply run
-
-```export traefikhost=apps.coronawhy.org```
 
 and
 
