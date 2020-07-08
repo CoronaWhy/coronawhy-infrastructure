@@ -23,11 +23,14 @@ download all CoronaWhy notebooks
 
 then you simply run
 
+```export traefikhost=apps.coronawhy.org```
+
+and
+
 ```docker-compose up```
 
 after that there would be exposed next CoronaWhy services:
 
-- Airflow http://airflow.apps.coronawhy.org (takes some time to launch)
 - Whoami http://whoami.apps.coronawhy.org (simple webserver returning host stats)
 - CoronaWhy API http://api.apps.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.apps.coronawhy.org
@@ -36,9 +39,16 @@ after that there would be exposed next CoronaWhy services:
 - Grlc http://grlc.apps.coronawhy.org (SPARQL queries into RESTful APIs convertor)
 - Doccano http://doccano.apps.coronawhy.org
 - Jupyter http://jupyter.apps.coronawhy.org (look for token in the logs)
-- Portainer http://portainer.apps.coronawhy.org
 - Traefik dashboard is available at http://apps.coronawhy.org:8080 (not secure setup)
 - Kibana http://kibana.apps.coronawhy.org
+
+if you want to run [Apache Airflow](https://airflow.apache.org/) at http://airflow.apps.coronawhy.org
+
+```docker-compose -f docker-compose-airflow.yml up```
+
+if you want to run [Portainer](https://www.portainer.io/) at http://portainer.apps.coronawhy.org
+
+```docker-compose -f docker-compose-portainer.yml up```
 
 Warning: in the example all infrastructure components deployed on *.apps.coronawhy.org, you should be able to get a local deployment on *.localhost (doccano.localhost, etc) or *.lab.coronawhy.org 
 
