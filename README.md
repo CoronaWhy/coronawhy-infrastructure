@@ -36,6 +36,7 @@ after that there would be exposed next CoronaWhy services:
 - Grlc http://grlc.apps.coronawhy.org (SPARQL queries into RESTful APIs convertor)
 - Doccano http://doccano.apps.coronawhy.org
 - Jupyter http://jupyter.apps.coronawhy.org (look for token in the logs)
+- OCR Tesseract http://ocr.tesseract.apps.coronawhy.org (OCR as a service)
 - Portainer http://portainer.apps.coronawhy.org
 - Traefik dashboard is available at http://apps.coronawhy.org:8080 (not secure setup)
 - Kibana http://kibana.apps.coronawhy.org

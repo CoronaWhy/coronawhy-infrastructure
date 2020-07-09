@@ -65,6 +65,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
 
+  ocr:
+    image: ricktorzynski/ocr-tesseract-docker
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ocr.rule=Host(`ocr.${traefikhost}`)"
+      - "traefik.http.services.ocr.loadbalancer.server.port=5000"
+
   es:
     build: elasticsearch/
     ports:
@@ -77,7 +84,7 @@ services:
          soft: -1
          hard: -1
     volumes:
-      - ./data/elastic:/usr/share/elasticsearch/data
+      - ./data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./data/original:/exchange
     labels:
@@ -89,6 +96,8 @@ services:
     image: jupyter/base-notebook
     volumes:
       - ./data/repo:/home/jovyan/work
+    environment:
+      - "JUPYTERHUB_1API_TOKEN=test_for_local"
     user:
       "root"
     labels:
