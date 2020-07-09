@@ -14,20 +14,19 @@ The infrastructure can be setup locally and exposed as a number of CoronaWhy ser
 
 You need to specify the value of "traefikhost" before you'll start to deploy the infrastructure:
 
-```export traefikhost=lab.coronawhy.org``` or ```export traefikhost=localhost```
+```export traefikhost=apps.coronawhy.org``` or ```export traefikhost=localhost```
 
 download all CoronaWhy notebooks
 ```
 ./build-coronawhy-infra.sh 
 ```
 
-then you simply run
+and
 
 ```docker-compose up```
 
 after that there would be exposed next CoronaWhy services:
 
-- Airflow http://airflow.apps.coronawhy.org (takes some time to launch)
 - Whoami http://whoami.apps.coronawhy.org (simple webserver returning host stats)
 - CoronaWhy API http://api.apps.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.apps.coronawhy.org
@@ -40,6 +39,14 @@ after that there would be exposed next CoronaWhy services:
 - Portainer http://portainer.apps.coronawhy.org
 - Traefik dashboard is available at http://apps.coronawhy.org:8080 (not secure setup)
 - Kibana http://kibana.apps.coronawhy.org
+
+if you want to run [Apache Airflow](https://airflow.apache.org/) at http://airflow.apps.coronawhy.org
+
+```docker-compose -f docker-compose-airflow.yml up```
+
+if you want to run [Portainer](https://www.portainer.io/) at http://portainer.apps.coronawhy.org
+
+```docker-compose -f docker-compose-portainer.yml up```
 
 Warning: in the example all infrastructure components deployed on *.apps.coronawhy.org, you should be able to get a local deployment on *.localhost (doccano.localhost, etc) or *.lab.coronawhy.org 
 
@@ -177,3 +184,5 @@ We are working on the deployment Neo4j graph database.
 [Exploration of Document Clustering with SPECTER Embeddings](https://medium.com/@beychaner/exploration-of-document-clustering-with-specter-embeddings-7d255f0f7392) by Brandon Eychaner
 
 [COVID-19 Research Papers Geolocation](https://medium.com/swlh/covid-19-research-papers-geolocation-c2d090bf9e06) by Ishan Sharma
+
+[Sweeping Towards Better Coronavirus Forecasting](https://towardsdatascience.com/sweeping-towards-better-coronavirus-forecasting-cce3b5d9a6f9) by Isaac Godfried

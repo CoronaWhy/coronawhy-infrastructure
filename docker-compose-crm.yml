@@ -18,6 +18,14 @@ services:
     links:
       - mysql
       - adminer
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vtiger.rule=Host(`crm.${traefikhost}`)"
+      - "traefik.http.routers.vtiger.entrypoints=web"
+      - "traefik.http.services.vtiger.loadbalancer.server.port=80"
+      # Uncomment this label if your Traefik instance is using a specific Docker network and replace the network name 
+      # This is not necessary if you set your default network in Traefik config/parameters
+      # - "traefik.docker.network=your-traefik-network-name"
 
   adminer:
     image: javanile/adminer

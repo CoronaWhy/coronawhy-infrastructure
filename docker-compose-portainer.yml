@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  portainer:
+    # launch portainer
+    image: portainer/portainer
+    container_name: "portainer"
+    # restart: always
+    ports:
+    #   - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${traefikhost}`)"
+      # - "traefik.http.routers.portainer.rule=Path(`/check`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      # Uncomment this label if your Traefik instance is using a specific Docker network and replace the network name 
+      # This is not necessary if you set your default network in Traefik config/parameters
+      # - "traefik.docker.network=your-traefik-network-name"
+
+volumes:
+  portainer_data:
