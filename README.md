@@ -186,3 +186,5 @@ We are working on the deployment Neo4j graph database.
 [COVID-19 Research Papers Geolocation](https://medium.com/swlh/covid-19-research-papers-geolocation-c2d090bf9e06) by Ishan Sharma
 
 [Sweeping Towards Better Coronavirus Forecasting](https://towardsdatascience.com/sweeping-towards-better-coronavirus-forecasting-cce3b5d9a6f9) by Isaac Godfried
+
+[Transferring Knowledge on Time Series with the Transformer](https://app.wandb.ai/covid/covid_forecast/reports/Transferring-Knowledge-on-Time-Series-with-the-Transformer--VmlldzoxNDEzOTk) by Isaac Godfried
