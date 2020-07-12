@@ -67,7 +67,9 @@ Read specific file from Dataverse by API and expose as JSON:
 curl -X GET "http://api.apps.coronawhy.org/dataverse/getfile?fileid=61" -H  "accept: application/json"
 ```
 
-CoronaWhy also maintaining various APIs to produce an aggregated COVID-19 datasets. You can access the data by querying CoronaWhy Data API with using country codes, for example, FRA for France [http://api.apps.coronawhy.org/country/FRA](http://api.apps.coronawhy.org/country/FRA) 
+CoronaWhy also maintaining various APIs to integrate COVID-19 datasets from various sources, the documentation available here: http://api.apps.coronawhy.org/docs. 
+
+You can access the aggregated COVID-19 data by querying CoronaWhy Data API with using country codes, for example, FRA for France [http://api.apps.coronawhy.org/country/FRA](http://api.apps.coronawhy.org/country/FRA) 
 
 ## CoronaWhy dashboards
 
