@@ -4,6 +4,7 @@ from fastapi.openapi.utils import get_openapi
 from elasticsearch import helpers, Elasticsearch
 from covid19dh import covid19, cite
 from config import search_host, search_username, search_password, search_port, search_index_name, covid19datahub_title, covid19datahub_citation, covid19datahub_licence, covid19datahub_goal, covid19datahub_authors, mongohost, mongouser, mongopassword, mongodatabase, cordversion
+from config import DV_ALIAS, BASE_URL, API_TOKEN, PARSABLE_EXTENSIONS_PY, PARSABLE_EXTENSIONS, gitroot
 from pymongo import MongoClient
 from pyDataverse.api import Api, NativeApi
 import pandas as pd
@@ -32,6 +33,12 @@ tags_metadata = [
             "description": "Put this citation in working papers and published papers that use this dataset: %s" % covid19datahub_citation,
             "authors": covid19datahub_authors,
             "url": "https://covid19datahub.io",
+        },
+    },
+    {
+        "name": "dataverse",
+        "externalDocs": {
+            "description": "Dataverse integration by API. Available actions: [showfiles, getfile]",
         },
     },
     {
@@ -84,6 +91,34 @@ def data_item(item_id: str, q: str = None):
     data['citations'] = cite(jsondataset)
     #return json.dumps(data, sort_keys=True, indent=4)
     return data
+
+@app.get("/dataverse/{action}", tags=["dataverse"])
+def dataverse(action: str, doi: str = None, fileid: str = None):
+    api = NativeApi(BASE_URL, API_TOKEN)
+    PID = 'doi:10.5072/FK2/3OZLV6'
+    if doi:
+        PID = doi
+    if action == 'showfiles':
+        files = api.get_datafiles(PID, ':latest').json()
+        if not fileid:
+            return files
+    if action == 'getfile':
+        if not fileid:
+            df = pd.DataFrame(files['data'])
+            filesindex = {}
+            for i in df.index:
+                filesindex[df.iloc[i].label] = df.iloc[i].dataFile 
+            pdfiles = pd.DataFrame(filesindex)
+            FILEID=pdfiles.loc['id'][0]
+            return pdfiles
+        else:
+            FILEID=fileid
+            fileURL = "%s/api/access/datafile/%s" % (BASE_URL, FILEID)
+            df = pd.read_csv(fileURL) 
+            data = {}
+            datapoints = json.loads(df.to_json(orient='records'))
+            data['data'] = datapoints
+            return data 
 
 @app.get("/cordsearch/", tags=["search"])
 def search_cord(fieldname: str = None, q: str = None):

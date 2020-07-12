@@ -5,13 +5,20 @@ covid19datahub_citation="Guidotti et al., (2020). COVID-19 Data Hub. Journal of 
 covid19datahub_licence="We have invested a lot of time and effort in creating COVID-19 Data Hub, please: 1) cite Guidotti and Ardia (2020) in working papers and published papers that use it; 2) place the URL https://covid19datahub.io in a footnote to help others find COVID-19 Data Hub 3) you assume full risk for the use of COVID-19 Data Hub. We try our best to guarantee the data quality and consistency and the continuous filling of the Data Hub. However, it is free software and comes with ABSOLUTELY NO WARRANTY. Reliance on COVID-19 Data Hub for medical guidance or use of COVID-19 Data Hub in commerce is strictly prohibited."
 # Mongo
 mongohost="mongodb.coronawhy.org"
-mongouser='someadmin'
+mongouser='admin'
 mongopassword='somepassword'
 mongodatabase='cord19'
 cordversion='v22'
 # Elastic
 search_host = 'search.coronawhy.org'
-search_username = 'someelastic'
-search_password = 'mypassword'
+search_username = 'elastic'
+search_password = 'somepassword'
 search_port = 80
 search_index_name = 'v22papers'
+# Dataverse
+DV_ALIAS = 'demo' # name of your dataverse
+BASE_URL = 'http://datasets.coronawhy.org' # URL where the dataverses are hosted *without trailing slash*
+API_TOKEN= 'get-your-api-token' # API token that can be created in your user menu
+PARSABLE_EXTENSIONS_PY = ['py', 'ipynb'] # Leave the array empty if you want to parse all files
+PARSABLE_EXTENSIONS = ['csv', 'json', 'gz', 'fasta', 'xlsx', 'jsonld', 'owl', 'ttl', 'rds', 'txt', 'cvs']
+gitroot = 'https://github.com'
