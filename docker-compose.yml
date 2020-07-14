@@ -40,6 +40,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
 
+  website:
+    build: website-node-docker/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
+    command: ["node_modules/serve/bin/serve.js", "./public"]
+
   grlc:
     image: clariah/grlc
     environment:
