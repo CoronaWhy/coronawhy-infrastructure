@@ -27,6 +27,7 @@ and
 
 after that there would be exposed next CoronaWhy services:
 
+- CoronaWhy website copy http://apps.coronawhy.org 
 - Whoami http://whoami.apps.coronawhy.org (simple webserver returning host stats)
 - CoronaWhy API http://api.apps.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.apps.coronawhy.org
@@ -35,10 +36,11 @@ after that there would be exposed next CoronaWhy services:
 - Grlc http://grlc.apps.coronawhy.org (SPARQL queries into RESTful APIs convertor)
 - Doccano http://doccano.apps.coronawhy.org
 - Jupyter http://jupyter.apps.coronawhy.org (look for token in the logs)
-- OCR Tesseract http://ocr.tesseract.apps.coronawhy.org (OCR as a service)
+- OCR Tesseract http://ocr.apps.coronawhy.org (OCR as a service)
 - Portainer http://portainer.apps.coronawhy.org
 - Traefik dashboard is available at http://apps.coronawhy.org:8080 (not secure setup)
 - Kibana http://kibana.apps.coronawhy.org
+- Preview tools for Dataverse http://preview.apps.coronawhy.org
 
 if you want to run [Apache Airflow](https://airflow.apache.org/) at http://airflow.apps.coronawhy.org
 
