@@ -35,7 +35,7 @@ services:
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
 
   preview:
-    image: coronawhy/previewers
+    build: ./preview
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
