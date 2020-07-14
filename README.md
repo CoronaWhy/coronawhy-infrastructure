@@ -27,7 +27,7 @@ and
 
 after that there would be exposed next CoronaWhy services:
 
-- CoronaWhy website copy http://apps.coronawhy.org 
+- CoronaWhy website copy http://apps.coronawhy.org - [Blank template here](http://apps.coronawhy.org/template) if you want to [contribute to CoronaWhy website development](https://github.com/CoronaWhy/website-node-docker/blob/master/public/template.html) 
 - Whoami http://whoami.apps.coronawhy.org (simple webserver returning host stats)
 - CoronaWhy API http://api.apps.coronawhy.org (FastAPI with Swagger)
 - Elasticsearch http://es.apps.coronawhy.org
