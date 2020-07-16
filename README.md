@@ -16,6 +16,10 @@ You need to specify the value of "traefikhost" before you'll start to deploy the
 
 ```export traefikhost=apps.coronawhy.org``` or ```export traefikhost=localhost```
 
+and create docker network for all the containers you would expose on the web
+
+```docker network create traefik```
+
 download all CoronaWhy notebooks
 ```
 ./build-coronawhy-infra.sh 

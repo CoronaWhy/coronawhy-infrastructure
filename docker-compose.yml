@@ -21,14 +21,22 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+      # volume to store let's encrypt certificates
+      - "./letsencrypt:/letsencrypt"
+    networks:
+      - traefik
   
   api:
+    networks:
+      - traefik
     build: api/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
 
   indra:
+    networks:
+      - traefik
     image: labsyspharm/indra
     command: python /sw/indra/rest_api/api.py
     labels:
@@ -37,12 +45,16 @@ services:
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
 
   preview:
+    networks:
+      - traefik
     build: ./preview
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
 
   website:
+    networks:
+      - traefik
     build: website-node-docker/
     labels:
       - "traefik.enable=true"
@@ -51,6 +63,8 @@ services:
 
   grlc:
     image: clariah/grlc
+    networks:
+      - traefik
     environment:
       - "GRLC_SERVER_NAME=grlc.io"
       - "GRLC_GITHUB_ACCESS_TOKEN=xxx" # Your token
@@ -62,6 +76,8 @@ services:
 
   ocr:
     image: ricktorzynski/ocr-tesseract-docker
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ocr.rule=Host(`ocr.${traefikhost}`)"
@@ -82,6 +98,8 @@ services:
       - ./data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./data/original:/exchange
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.${traefikhost}`)"
@@ -95,6 +113,8 @@ services:
       - "JUPYTERHUB_1API_TOKEN=test_for_local"
     user:
       "root"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`jupyter.${traefikhost}`)"
@@ -105,6 +125,8 @@ services:
     environment:
       SPARQL_UPDATE: "true"
       DEFAULT_GRAPH: "http://www.example.com/my-graph"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sparql.rule=Host(`sparql.${traefikhost}`)"
@@ -117,6 +139,8 @@ services:
     image: docker.elastic.co/kibana/kibana:7.8.0
     environment:
       ELASTICSEARCH_HOSTS: http://search.coronawhy.org
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.kibana.rule=Host(`kibana.${traefikhost}`)"
@@ -125,6 +149,8 @@ services:
   whoami:
     image: "containous/whoami"
     container_name: "whoami"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.entrypoints=web"
@@ -136,7 +162,14 @@ services:
   doccano:
     image: "coronawhy/doccano"
     container_name: "doccano"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.doccano.entrypoints=web"
       - "traefik.http.routers.doccano.rule=Host(`doccano.${traefikhost}`)"
+
+
+networks:
+  traefik:
+    external: true
