@@ -10,10 +10,12 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--"
+      - "--entrypoints.https.address=:443"
     ports:
       # The HTTP port
       - "80:80"
+      # The HTTPS port
+      - "443:443"
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
