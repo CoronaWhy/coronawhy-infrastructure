@@ -47,6 +47,13 @@ services:
       - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
+  vufind:
+    image: unica/vufind
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vufind.rule=Host(`vufind.${traefikhost}`)"
+      - "traefik.http.services.vufind.loadbalancer.server.port=80"
+
   grlc:
     image: clariah/grlc
     environment:
