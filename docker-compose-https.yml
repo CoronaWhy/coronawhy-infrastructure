@@ -9,42 +9,71 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - --providers.docker.network=traefik
       - "--entrypoints.web.address=:80"
-      - "--"
+      - "--entrypoints.websecure.address=:443"
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true # <== Enable TLS-ALPN-01 to generate and renew ACME certs
+      - --certificatesresolvers.myresolver.acme.email=team@coronawhy.org
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
     ports:
       # The HTTP port
       - "80:80"
+      # The HTTPS port
+      - "443:443"
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+      # volume to store let's encrypt certificates
+      - "./letsencrypt:/letsencrypt"
+    networks:
+      - traefik
   
   api:
+    networks:
+      - traefik
     build: api/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=myresolver
 
   indra:
+    networks:
+      - traefik
     image: labsyspharm/indra
     command: python /sw/indra/rest_api/api.py
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.indra.rule=Host(`indra.${traefikhost}`)"
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
+      - traefik.http.routers.indra.tls=true
+      - traefik.http.routers.indra.tls.certresolver=myresolver
 
   preview:
+    networks:
+      - traefik
     build: ./preview
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
+      - traefik.http.routers.preview.tls=true
+      - traefik.http.routers.preview.tls.certresolver=myresolver
 
   website:
+    networks:
+      - traefik
     build: website-node-docker/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
+      - traefik.http.routers.website.tls=true
+      - traefik.http.routers.website.tls.certresolver=myresolver
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
   vufind:
@@ -56,6 +85,8 @@ services:
 
   grlc:
     image: clariah/grlc
+    networks:
+      - traefik
     environment:
       - "GRLC_SERVER_NAME=grlc.io"
       - "GRLC_GITHUB_ACCESS_TOKEN=xxx" # Your token
@@ -64,13 +95,19 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
+      - traefik.http.routers.grlc.tls=true
+      - traefik.http.routers.grlc.tls.certresolver=myresolver
 
   ocr:
     image: ricktorzynski/ocr-tesseract-docker
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ocr.rule=Host(`ocr.${traefikhost}`)"
       - "traefik.http.services.ocr.loadbalancer.server.port=5000"
+      - traefik.http.routers.ocr.tls=true
+      - traefik.http.routers.ocr.tls.certresolver=myresolver
 
   es:
     build: elasticsearch/
@@ -87,10 +124,14 @@ services:
       - ./data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./data/original:/exchange
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.${traefikhost}`)"
       - "traefik.http.services.es.loadbalancer.server.port=9200"
+      - traefik.http.routers.es.tls=true
+      - traefik.http.routers.es.tls.certresolver=myresolver
   
   jupyter:
     image: jupyter/base-notebook
@@ -100,16 +141,22 @@ services:
       - "JUPYTERHUB_1API_TOKEN=test_for_local"
     user:
       "root"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`jupyter.${traefikhost}`)"
       - "traefik.http.routers.jupyter.entrypoints=web"
+      - traefik.http.routers.jupyter.tls=true
+      - traefik.http.routers.jupyter.tls.certresolver=myresolver
 
   sparql:
     image: tenforce/virtuoso:1.3.1-virtuoso7.2.2
     environment:
       SPARQL_UPDATE: "true"
       DEFAULT_GRAPH: "http://www.example.com/my-graph"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sparql.rule=Host(`sparql.${traefikhost}`)"
@@ -122,26 +169,40 @@ services:
     image: docker.elastic.co/kibana/kibana:7.8.0
     environment:
       ELASTICSEARCH_HOSTS: http://search.coronawhy.org
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.kibana.rule=Host(`kibana.${traefikhost}`)"
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+      - traefik.http.routers.kibana.tls=true
+      - traefik.http.routers.kibana.tls.certresolver=myresolver
 
   whoami:
     image: "containous/whoami"
     container_name: "whoami"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.entrypoints=web"
       - "traefik.http.routers.whoami.rule=Host(`whoami.${traefikhost}`)"
       #- "traefik.http.routers.whoami.rule=Path(`/check`)"
-
       #- "traefik.http.middlewares.add-foo.addprefix.prefix=/check"
+      - traefik.http.routers.whoami.tls=true
+      - traefik.http.routers.whoami.tls.certresolver=myresolver
 
   doccano:
     image: "coronawhy/doccano"
     container_name: "doccano"
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.doccano.entrypoints=web"
       - "traefik.http.routers.doccano.rule=Host(`doccano.${traefikhost}`)"
+
+
+networks:
+  traefik:
+    external: true
