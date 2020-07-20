@@ -71,7 +71,8 @@ services:
     build: website-node-docker/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"- traefik.http.routers.whoami.tls=true
+      - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
+      - traefik.http.routers.website.tls=true
       - traefik.http.routers.website.tls.certresolver=myresolver
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
