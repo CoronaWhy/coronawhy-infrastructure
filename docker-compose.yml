@@ -47,12 +47,42 @@ services:
       - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
+  solr7:
+    tty: true
+    image: solr:7.3.1
+    working_dir: /usr/local/vufind
+    user: root
+    volumes:
+      - "./vufind/webapp/vufind:/usr/local/vufind"
+    environment:
+      - VUFIND_LOCAL_DIR=/usr/local/vufind
+      - VUFIND_LOCAL_DIR=/usr/local/vufind/local
+      - SOLR_ADDITIONAL_START_OPTIONS=-f
+    ports:
+      - "8088:8983"
+    command: "./solr.sh -force start "
+
   vufind:
-    image: unica/vufind
+    image: coronawhy/vufind
+    user: root
+    ports:
+        - "88:80"
+    volumes:
+      - "./vufind/scripts:/usr/local/scripts"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vufind.rule=Host(`vufind.${traefikhost}`)"
-      - "traefik.http.services.vufind.loadbalancer.server.port=80"
+    command: "/usr/local/scripts/runwebserver.sh"
+
+  postgres:
+    image: postgres:12
+    user: root
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    ports:
+      - "54323:5432"
+    environment:
+      POSTGRES_PASSWORD: vufind
 
   grlc:
     image: clariah/grlc
