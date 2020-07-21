@@ -5,10 +5,8 @@
 DATASET=http://labs.coronawhy.org/CORD-19-research-challenge.zip
 DATADIR="./data"
 echo "Downloading CORD-19 dataset from $DATASET..."
-mkdir $DATADIR
-mkdir $DATADIR/original
-mkdir $DATADIR/original/CORD-19-research-challenge
-curl -o $DATADIR/original/CORD-19-research-challenge/CORD-19-research-challenge.zip $DATASET
+mkdir -p $DATADIR/original/CORD-19-research-challenge
+wget -O $DATADIR/original/CORD-19-research-challenge/CORD-19-research-challenge.zip $DATASET
 cd $DATADIR/original/CORD-19-research-challenge
 echo "Unzipping dataset and preparing CoronaWhy infrastructure..."
 unzip CORD-19-research-challenge.zip
