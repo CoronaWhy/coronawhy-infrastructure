@@ -59,7 +59,7 @@ services:
       - VUFIND_LOCAL_DIR=/usr/local/vufind/local
       - SOLR_ADDITIONAL_START_OPTIONS=-f
     ports:
-      - "8088:8983"
+      - "8083:8983"
     command: "./solr.sh -force start "
 
   vufind:
