@@ -63,26 +63,28 @@ services:
     command: "./solr.sh -force start "
 
   vufind:
-    image: coronawhy/vufind
+    image: coronawhy/vufind:vufind:6.1.2
     user: root
     ports:
         - "88:80"
     volumes:
-      - "./vufind/scripts:/usr/local/scripts"
+      - "./vufind/install:/usr/local/scripts"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vufind.rule=Host(`vufind.${traefikhost}`)"
-    command: "/usr/local/scripts/runwebserver.sh"
+    command: "/bin/bash /usr/local/scripts/runvufind.sh"
 
   postgres:
     image: postgres:12
     user: root
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
+      - "./vufind/install:/usr/local/scripts"
     ports:
       - "54323:5432"
     environment:
       POSTGRES_PASSWORD: vufind
+#    command: "/bin/bash /usr/local/scripts/postgres.sh"
 
   grlc:
     image: clariah/grlc
