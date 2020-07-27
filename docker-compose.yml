@@ -63,7 +63,7 @@ services:
     command: "./solr.sh -force start "
 
   vufind:
-    image: coronawhy/vufind:vufind:6.1.2
+    image: coronawhy/vufind:6.1.2
     user: root
     ports:
         - "88:80"
