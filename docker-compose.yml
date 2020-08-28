@@ -65,6 +65,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
 
+  graphdb:
+    image: ontotext/graphdb:9.1.1-se
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.graphdb.rule=Host(`graphdb.${traefikhost}`)"
+      - "traefik.http.services.graphdb.loadbalancer.server.port=7200"
+    volumes:
+      - ./data/graphdb:/opt/graphdb/home/data
+
   ocr:
     image: ricktorzynski/ocr-tesseract-docker
     labels:
