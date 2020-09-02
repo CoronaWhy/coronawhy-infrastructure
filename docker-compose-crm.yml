@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     image: javanile/vtiger:latest
     environment:
       - VT_DEBUG=true
-      - VT_SITE_URL=https://crm.labs.coronawhy.org/
+      - VT_SITE_URL=http://crm.labs.coronawhy.org/
       - MYSQL_ROOT_PASSWORD=secret
     ports:
       - 8083:80
@@ -23,10 +23,8 @@ services:
       - "traefik.http.routers.vtiger.rule=Host(`crm.${traefikhost}`)"
       - "traefik.http.routers.vtiger.entrypoints=web"
       - "traefik.http.services.vtiger.loadbalancer.server.port=80"
-      # Uncomment this label if your Traefik instance is using a specific Docker network and replace the network name 
-      # This is not necessary if you set your default network in Traefik config/parameters
-      # - "traefik.docker.network=your-traefik-network-name"
-
+    networks:
+      - traefik
   adminer:
     image: javanile/adminer
     environment:
@@ -36,6 +34,8 @@ services:
       - 20081:8080
     links:
       - mysql
+    networks:
+      - traefik
 
   mysql:
     image: mysql:5.5
@@ -44,6 +44,8 @@ services:
     volumes:
       - mysql:/var/lib/mysql:rw
       - ./:/vtiger:rw
+    networks:
+      - traefik
 
   debian:
     image: debian
@@ -51,6 +53,12 @@ services:
     command: bash -c "echo 'prevent default'; exit 0"
     volumes:
       - ./:/app:rw
+    networks:
+      - traefik
 
 volumes:
   mysql:
+
+networks:
+  traefik:
+    external: true
