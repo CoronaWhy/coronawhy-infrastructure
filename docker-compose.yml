@@ -9,6 +9,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - --providers.docker.network=traefik
       - "--entrypoints.web.address=:80"
       - "--"
     ports:
@@ -19,14 +20,20 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik
   
   api:
+    networks:
+      - traefik
     build: api/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
 
   indra:
+    networks:
+      - traefik
     image: labsyspharm/indra
     command: python /sw/indra/rest_api/api.py
     labels:
@@ -35,12 +42,16 @@ services:
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
 
   preview:
+    networks:
+      - traefik
     build: ./preview
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
 
   website:
+    networks:
+      - traefik
     build: website-node-docker/
     labels:
       - "traefik.enable=true"
@@ -48,6 +59,8 @@ services:
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
   vufind:
+    networks:
+      - traefik
     image: unica/vufind
     labels:
       - "traefik.enable=true"
@@ -55,6 +68,8 @@ services:
       - "traefik.http.services.vufind.loadbalancer.server.port=80"
 
   grlc:
+    networks:
+      - traefik
     image: clariah/grlc
     environment:
       - "GRLC_SERVER_NAME=grlc.io"
@@ -66,6 +81,8 @@ services:
       - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
 
   graphdb:
+    networks:
+      - traefik
     image: ontotext/graphdb:9.1.1-se
     labels:
       - "traefik.enable=true"
@@ -75,6 +92,8 @@ services:
       - ./data/graphdb:/opt/graphdb/home/data
 
   ocr:
+    networks:
+      - traefik
     image: ricktorzynski/ocr-tesseract-docker
     labels:
       - "traefik.enable=true"
@@ -82,6 +101,8 @@ services:
       - "traefik.http.services.ocr.loadbalancer.server.port=5000"
 
   es:
+    networks:
+      - traefik
     build: elasticsearch/
     ports:
       - "9201:9200"
@@ -102,6 +123,8 @@ services:
       - "traefik.http.services.es.loadbalancer.server.port=9200"
   
   jupyter:
+    networks:
+      - traefik
     image: jupyter/base-notebook
     volumes:
       - ./data/repo:/home/jovyan/work
@@ -115,6 +138,8 @@ services:
       - "traefik.http.routers.jupyter.entrypoints=web"
 
   sparql:
+    networks:
+      - traefik
     image: tenforce/virtuoso:1.3.1-virtuoso7.2.2
     environment:
       SPARQL_UPDATE: "true"
@@ -128,6 +153,8 @@ services:
       - ./data/virtuoso:/data
 
   kibana:
+    networks:
+      - traefik
     image: docker.elastic.co/kibana/kibana:7.8.0
     environment:
       ELASTICSEARCH_HOSTS: http://search.coronawhy.org
@@ -137,6 +164,8 @@ services:
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
   whoami:
+    networks:
+      - traefik
     image: "containous/whoami"
     container_name: "whoami"
     labels:
@@ -148,9 +177,16 @@ services:
       #- "traefik.http.middlewares.add-foo.addprefix.prefix=/check"
 
   doccano:
+    networks:
+      - traefik
     image: "coronawhy/doccano"
     container_name: "doccano"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.doccano.entrypoints=web"
       - "traefik.http.routers.doccano.rule=Host(`doccano.${traefikhost}`)"
+
+
+networks:
+  traefik:
+    external: true
