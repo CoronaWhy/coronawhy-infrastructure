@@ -176,6 +176,22 @@ services:
 
       #- "traefik.http.middlewares.add-foo.addprefix.prefix=/check"
 
+  semantic:
+    networks:
+      - traefik
+    image: "coronawhy/chatbot"
+    container_name: "chatbot"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chatbot.entrypoints=web"
+      - "traefik.http.routers.chatbot.rule=Host(`semantic.${traefikhost}`)"
+      - "traefik.http.services.chatbot.loadbalancer.server.port=8080"
+    volumes:
+      - ./data/data_dumps:/semantic-bot/data_dumps
+      - ./semantic/chatbot_app/settings.py:/semantic-bot/chatbot_app/settings.py
+      - ./semantic/assets:/semantic-bot/static_files
+      - ./semantic/index.html:/semantic-bot/chat/templates/index.html
+
   doccano:
     networks:
       - traefik
