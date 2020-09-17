@@ -11,15 +11,26 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - --providers.docker.network=traefik
       - "--entrypoints.web.address=:80"
-      - "--"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entryPoint.priority=10" # disable permanent forwarding for every route
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true" # <== Enable TLS-ALPN-01 to generate and renew ACME certs
+      - "--certificatesresolvers.myresolver.acme.email=team@coronawhy.org"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
     ports:
       # The HTTP port
       - "80:80"
+      # The HTTPS port
+      - "443:443"
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+      # volume to store let's encrypt certificates
+      - "./letsencrypt:/letsencrypt"
     networks:
       - traefik
   
@@ -30,6 +41,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${traefikhost}`)"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
 
   indra:
     networks:
@@ -38,6 +51,7 @@ services:
     command: python /sw/indra/rest_api/api.py
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.indra.entrypoints=web"
       - "traefik.http.routers.indra.rule=Host(`indra.${traefikhost}`)"
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
 
@@ -48,6 +62,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.preview.rule=Host(`preview.${traefikhost}`)"
+      - "traefik.http.routers.preview.tls=true"
+      - "traefik.http.routers.preview.tls.certresolver=myresolver"
 
   website:
     networks:
@@ -56,16 +72,58 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.website.rule=Host(`${traefikhost}`)"
+      - "traefik.http.routers.website.tls=true"
+      - "traefik.http.routers.website.tls.certresolver=myresolver"
     command: ["node_modules/serve/bin/serve.js", "./public"]
 
-  vufind:
+  solr7:
+    tty: true
     networks:
       - traefik
-    image: unica/vufind
+    image: solr:7.3.1
+    working_dir: /usr/local/vufind
+    user: root
+    volumes:
+      - "./vufind/webapp/vufind:/usr/local/vufind"
+    environment:
+      - VUFIND_LOCAL_DIR=/usr/local/vufind
+      - VUFIND_LOCAL_DIR=/usr/local/vufind/local
+      - SOLR_ADDITIONAL_START_OPTIONS=-f
+    ports:
+      - "8084:8983"
+    command: "./solr.sh -force start "
+
+  vufind:
+    image: coronawhy/vufind:6.1.2
+    networks:
+      - traefik
+    user: root
+    ports:
+        - "8087:80"
+    volumes:
+      - "./vufind/install:/usr/local/scripts"
+      - "./vufind/config.ini:/usr/local/vufind/local/config/vufind/config.ini"
+      - "./vufind/webapp/vufind/themes/coronawhy:/usr/local/vufind/themes/coronawhy"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vufind.rule=Host(`vufind.${traefikhost}`)"
-      - "traefik.http.services.vufind.loadbalancer.server.port=80"
+      - "traefik.http.routers.vufind.tls=true"
+      - "traefik.http.routers.vufind.tls.certresolver=myresolver"
+    command: "/bin/bash /usr/local/scripts/runvufind.sh"
+
+  postgres:
+    image: postgres:12
+    networks:
+      - traefik
+    user: root
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+      - "./vufind/install:/usr/local/scripts"
+    ports:
+      - "54323:5432"
+    environment:
+      POSTGRES_PASSWORD: vufind
+#    command: "/bin/bash /usr/local/scripts/postgres.sh"
 
   grlc:
     networks:
@@ -79,6 +137,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grlc.rule=Host(`grlc.${traefikhost}`)"
+      - "traefik.http.routers.grlc.tls=true"
+      - "traefik.http.routers.grlc.tls.certresolver=myresolver"
 
   graphdb:
     networks:
@@ -88,6 +148,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.graphdb.rule=Host(`graphdb.${traefikhost}`)"
       - "traefik.http.services.graphdb.loadbalancer.server.port=7200"
+      - "traefik.http.routers.graphdb.tls=true"
+      - "traefik.http.routers.graphdb.tls.certresolver=myresolver"
     volumes:
       - ./data/graphdb:/opt/graphdb/home/data
 
@@ -99,6 +161,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.ocr.rule=Host(`ocr.${traefikhost}`)"
       - "traefik.http.services.ocr.loadbalancer.server.port=5000"
+      - "traefik.http.routers.ocr.tls=true"
+      - "traefik.http.routers.ocr.tls.certresolver=myresolver"
 
   es:
     networks:
@@ -121,6 +185,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.${traefikhost}`)"
       - "traefik.http.services.es.loadbalancer.server.port=9200"
+      - "traefik.http.routers.es.tls=true"
+      - "traefik.http.routers.es.tls.certresolver=myresolver"
   
   jupyter:
     networks:
@@ -135,7 +201,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jupyter.rule=Host(`jupyter.${traefikhost}`)"
-      - "traefik.http.routers.jupyter.entrypoints=web"
+        # - "traefik.http.routers.jupyter.entrypoints=web"
+      - "traefik.http.routers.jupyter.tls=true"
+      - "traefik.http.routers.jupyter.tls.certresolver=myresolver"
 
   sparql:
     networks:
@@ -147,8 +215,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sparql.rule=Host(`sparql.${traefikhost}`)"
-      - "traefik.http.routers.sparql.entrypoints=web"
+        #- "traefik.http.routers.sparql.entrypoints=web"
       - "traefik.http.services.sparql.loadbalancer.server.port=8890"
+      - "traefik.http.routers.sparql.tls=true"
+      - "traefik.http.routers.sparql.tls.certresolver=myresolver"
     volumes:
       - ./data/virtuoso:/data
 
@@ -162,6 +232,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.kibana.rule=Host(`kibana.${traefikhost}`)"
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+      - "traefik.http.routers.kibana.tls=true"
+      - "traefik.http.routers.kibana.tls.certresolver=myresolver"
 
   whoami:
     networks:
@@ -170,8 +242,10 @@ services:
     container_name: "whoami"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.entrypoints=web"
+      # - "traefik.http.routers.whoami.entrypoints=web"
       - "traefik.http.routers.whoami.rule=Host(`whoami.${traefikhost}`)"
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
       #- "traefik.http.routers.whoami.rule=Path(`/check`)"
 
       #- "traefik.http.middlewares.add-foo.addprefix.prefix=/check"
@@ -183,9 +257,11 @@ services:
     container_name: "chatbot"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.chatbot.entrypoints=web"
+        #- "traefik.http.routers.chatbot.entrypoints=web"
       - "traefik.http.routers.chatbot.rule=Host(`semantic.${traefikhost}`)"
       - "traefik.http.services.chatbot.loadbalancer.server.port=8080"
+      - "traefik.http.routers.chatbot.tls=true"
+      - "traefik.http.routers.chatbot.tls.certresolver=myresolver"
     volumes:
       - ./data/data_dumps:/semantic-bot/data_dumps
       - ./semantic/chatbot_app/settings.py:/semantic-bot/chatbot_app/settings.py
@@ -199,8 +275,10 @@ services:
     container_name: "doccano"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.doccano.entrypoints=web"
+        # - "traefik.http.routers.doccano.entrypoints=web"
       - "traefik.http.routers.doccano.rule=Host(`doccano.${traefikhost}`)"
+      - "traefik.http.routers.doccano.tls=true"
+      - "traefik.http.routers.doccano.tls.certresolver=myresolver"
 
 
 networks:
