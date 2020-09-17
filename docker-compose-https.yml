@@ -14,6 +14,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entryPoint.priority=10" # disable permanent forwarding for every route
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true" # <== Enable TLS-ALPN-01 to generate and renew ACME certs
       - "--certificatesresolvers.myresolver.acme.email=team@coronawhy.org"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
@@ -52,7 +53,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.indra.rule=Host(`indra.${traefikhost}`)"
       - "traefik.http.services.indra.loadbalancer.server.port=8080"
-      - "traefik.http.routers.indra.tls=true"
+      # - "traefik.http.routers.indra.tls=true" #comment this out to have default tls=false and no automatic redirect to https
       - "traefik.http.routers.indra.tls.certresolver=myresolver"
 
   preview:
